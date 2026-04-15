@@ -15,6 +15,10 @@ public class CustomDoubleLinkedList : DoubleLinkedList<SnapshotNode>
             base.Add(snapshot);
             ResetPointer();
         }
+        else if (pointer == head)
+        {
+            Debug.Log("aea");
+        }
         else
         {
             RemoveFromPosition(pointer);

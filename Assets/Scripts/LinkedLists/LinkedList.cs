@@ -1,5 +1,3 @@
-
-
 using System;
 using UnityEngine;
 
@@ -8,13 +6,11 @@ public class LinkedList<T> : MonoBehaviour
     public Node<T> head = null;
     public int Count;
 
-
     //->O(N)
     public virtual void Add(T value)
     {
         Node<T> tempNode = new(value);
 
-        //-> Cuando no hay nuingun elemento en la lista
         if (head == null)
         {
             head = tempNode;
@@ -29,15 +25,14 @@ public class LinkedList<T> : MonoBehaviour
             }
 
             Evaluator.SetNext(tempNode);
-
         }
+
         Count++;
     }
 
     //->O(n)
     public void RemoveLast()
     {
-
         Node<T> Evaluator = head;
 
         if (Count == 0)
@@ -70,12 +65,11 @@ public class LinkedList<T> : MonoBehaviour
             Evaluator.SetNext(null);
             Count--;
         }
-
     }
+
     //-> O(1)
     public void RemoveFirst()
     {
-
         if (Count <= 1)
         {
             head = null;
@@ -87,34 +81,18 @@ public class LinkedList<T> : MonoBehaviour
         head.SetNext(null);
         head = Evaluator;
         Count--;
-
-
     }
 
-
-    // Recorrer
     public void Traverse(Action<Node<T>> action)
     {
-        Node<T> Evaluator = head;
-        while (Evaluator != null)
-        {
-            //  Debug.Log(Evaluator.Value);
-            action(Evaluator);
-
-            Evaluator = Evaluator.Next;
-        }
+        RecursiveTraverse(head, action);
     }
-    public void RecursiveTraverse(Node<T> Evaluator  ,Action<Node<T>> action )
+
+    private void RecursiveTraverse(Node<T> current, Action<Node<T>> action)
     {
-        if (Evaluator == null)
-        {
-            Debug.Log("Terminas de recorrer la lista");
-            return;
-        }
+        if (current == null) return;
 
-        action(Evaluator);
-
-        RecursiveTraverse(Evaluator.Next,action);
+        action(current);
+        RecursiveTraverse(current.Next, action);
     }
-
 }

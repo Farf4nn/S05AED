@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class DoubleLinkedList<T> //: MonoBehaviour
 {
+    public Node<T> Pivot;
     public Node<T> head = null;
     public Node<T> tail = null;
     public int Count;
@@ -12,22 +13,25 @@ public class DoubleLinkedList<T> //: MonoBehaviour
     {
         Node<T> newNode = new(value);
 
-        //-> Cuando no hay nuingun elemento en la lista
         if (head == null)
         {
             head = newNode;
             tail = newNode;
+            Pivot = newNode;
         }
-        else if(head != null )
+        else
         {
             tail.SetNext(newNode);
             newNode.SetPrev(tail);
             tail = newNode;
+
+            Pivot = newNode;
         }
+
         Count++;
     }
 
-    
+
     //->O(1)
     public void RemoveLast()
     {
@@ -101,5 +105,38 @@ public class DoubleLinkedList<T> //: MonoBehaviour
         }
     }
 
+    public void MoveNext()
+    {
+        if (Pivot != null && Pivot.Next != null)
+        {
+            Pivot = Pivot.Next;
+        }
+    }
 
+    public void MovePrev()
+    {
+        if (Pivot != null && Pivot.Prev != null)
+        {
+            Pivot = Pivot.Prev;
+        }
+    }
+
+    public void RemoveFuture()
+    {
+        if (Pivot == null) return;
+
+        Node<T> current = Pivot.Next;
+
+        while (current != null)
+        {
+            Node<T> temp = current;
+            current = current.Next;
+
+            temp.SetPrev(null);
+            temp.SetNext(null);
+        }
+
+        Pivot.SetNext(null);
+        tail = Pivot;
+    }
 }
